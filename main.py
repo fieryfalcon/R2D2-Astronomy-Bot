@@ -307,13 +307,32 @@ async def on_message(message):
     
 
 
+  if message.content.startswith('$commands'):
+    embed = discord.Embed(
+    title = f"Here you Go ...!",)
+    embed.set_thumbnail(url=message.author.avatar)
+    embed.add_field(name = "Commands to Call me :",
+                   value="1. $apod command gives you the Astronomy picture of the day released by NASA everyday \n 2.$launches gives you the list of upcoming rocket launches and the site to watch them! \n 3.$news- gives you with the Astronomy News but I dont stop there you can also get business, world, sports , science , top, entertainment news by typing $news-[topic you want]#1 this will give you the first page conatining ten articles for more just replace #1)\n 4.$chat- <your query> to chat with me. \n 5.$dob-<your dob in ddmmyy> to store the dob and wish you on your bday...!",inline = False)
+    embed.add_field(name = "Rules to follow in the server :",
+                   value="1. No Offensive messages \n 2.This is a server for Space Geeks so try to keep it that way \n 3.Only Healthy conversations \n 4.May the force be with you..!")
+
+   
+   
+    await message.channel.send(embed=embed)
+    
 @client.event
 async def on_member_join(member):
     embed = discord.Embed(
-    title = f"Welcome to the server {member.name}. Please type in your Date Of Birth in DDMMYY format"
+    title = f"Welcome to the server {member.name}. Please type in your Date Of Birth in DDMMYY format",
+    
     
 )
     embed.set_thumbnail(url=member.avatar)
+    embed.add_field(name = "Commands to Call me ...!",
+                   value="1. $apod command gives you the Astronomy picture of the day released by NASA everyday \n 2.$launches gives you the list of upcoming rocket launches and the site to watch them! \n 3.$news- gives you with the Astronomy News but I dont stop there you can also get business, world, sports , science , top, entertainment news by typing $news-[topic you want]#1 this will give you the first page conatining ten articles for more just replace #1)\n 4.$chat- <your query> to chat with me. \n 5.$dob-<your dob in ddmmyy> to store the dob and wish you on your bday...!",inline = False)
+    embed.add_field(name = "Rules to follow in the server",
+                   value="1. No Offensive messages \n 2.This is a server for Space Geeks so try to keep it that way \n 3.Only Healthy conversations \n 4.May the force be with you..!")
+    embed.set_image(url="https://media.tenor.com/ScSWQApVJyAAAAAC/space-dance-nasa.gif")                
 
    
    
