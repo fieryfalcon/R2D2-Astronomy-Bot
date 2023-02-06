@@ -370,7 +370,7 @@ async def on_ready():
                 await channel.send(embed=embed)
             else:
               print("nobody")
-        await asyncio.sleep(3600)
+        await asyncio.sleep(86000)
 
 
 # async def check_birthday():
