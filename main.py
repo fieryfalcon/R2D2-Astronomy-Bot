@@ -9,16 +9,96 @@ import discord
 import requests
 import asyncio
 import datetime
+import pynacl
 from replit import db
-
-openai.api_key = " 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"
-
-allowed_categories = ["business","world","technology","sports","science","politics","environment","top"]
+import youtube_dl
+import music
+from discord.ext import commands
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 client = discord.Client(intents=intents)
+
+voice_clients = {}
+
+yt_dl_opts = {'format': 'bestaudio/best'}
+ytdl = youtube_dl.YoutubeDL(yt_dl_opts)
+
+ffmpeg_options = {'options': "-vn"}
+
+
+
+@client.event
+async def on_ready():
+    print(f"Bot logged in as {client.user}")
+
+
+
+@client.event
+async def on_message(msg):
+    if msg.content.startswith("?play"):
+
+        try:
+            voice_client = await msg.author.voice.channel.connect()
+            voice_clients[voice_client.guild.id] = voice_client
+        except:
+            print("error")
+
+        try:
+            url = msg.content.split()[1]
+
+            loop = asyncio.get_event_loop()
+            data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=False))
+
+            song = data['url']
+            player = discord.FFmpegPCMAudio(song, **ffmpeg_options)
+
+            voice_clients[msg.guild.id].play(player)
+
+        except Exception as err:
+            print(err)
+
+
+    if msg.content.startswith("?pause"):
+        try:
+            voice_clients[msg.guild.id].pause()
+        except Exception as err:
+            print(err)
+
+    
+    if msg.content.startswith("?resume"):
+        try:
+            voice_clients[msg.guild.id].resume()
+        except Exception as err:
+            print(err)
+
+    
+    if msg.content.startswith("?stop"):
+        try:
+            voice_clients[msg.guild.id].stop()
+            await voice_clients[msg.guild.id].disconnect()
+        except Exception as err:
+            print(err)
+
+
+
+# cogs = [music]
+
+# client = commands.Bot(command_prefix="?",intents = discord.Intents.all())
+
+# for i in range(len(cogs)):
+#   cogs[i].setup(client)
+
+
+# client.run("MTA2OTcxODQ3NzA1NDY4OTMzMA.GN44NM.w6tk6RbtNuUToAU8wsvVNX8F_ZfLco7_zK5PjY")
+
+
+allowed_categories = ["business","world","technology","sports","science","politics","environment","top"]
+
+
+
+
 
 @client.event
 async def on_message(message):
@@ -237,16 +317,9 @@ async def on_message(message):
                       inline=False)
 
         sent_message = await message.channel.send(embed=embed)
-# @client.event
-# async def on_member_join(member):
-#     channel = discord.utils.get(member.guild.text_channels, name="general")
-#     if channel is not None:
-#         embed = discord.Embed(title="Welcome!", description=f"{member.mention} has joined the server!", color=0x00ff00)
-#         await channel.send(embed=embed)
-
   if message.content.startswith('$chat'):
     member_message = message.content.split("-")[1]
-    openai.api_key = "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"
+    openai.api_key = "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"
     
     model_engine = "text-davinci-003"
     
@@ -319,7 +392,48 @@ async def on_message(message):
    
    
     await message.channel.send(embed=embed)
+
     
+#   if message.content.startswith('!play'):
+#         # Extract the song name
+#         song_name = message.content[6:]
+#         if not song_name:
+#             await message.channel.send('Please specify a song name!')
+#             return
+#         if not song_name:
+#             await message.channel.send('Please specify a song name!')
+#             return
+
+#         # Search for the song on YouTube
+#         ydl_opts = {
+#             'default_search': 'ytsearch',
+#             # 'format': 'bestaudio/best',
+#             # 'postprocessors': [{
+#             #     'key': 'FFmpegExtractAudio',
+#             #     'preferredcodec': 'mp3',
+#             #     'preferredquality': '192',
+#             # }],
+#         }
+#         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+#             info = ydl.extract_info(song_name, download=False)
+#             if 'formats' in info:
+#                 stream_url = info['formats'][0]['url']
+#             else:
+#               await message.channel.send("Couldn't find an audio-only format for the song. Try searching for a different version.")
+#             return
+
+#         # Check if the user is in a voice channel
+#         if message.author.voice is None:
+#             await message.channel.send('Please join a voice channel first!')
+#             return
+
+#         # Join the user's voice channel
+#         voice_channel = message.author.voice.channel
+#         vc = await voice_channel.connect()
+
+#         # Play the audio stream
+#         vc.play(discord.FFmpegPCMAudio(stream_url), after=lambda e: print('done', e))
+#         await message.channel.send(f'Playing: {info["title"]}')
 @client.event
 async def on_member_join(member):
     embed = discord.Embed(
