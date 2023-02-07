@@ -1,4 +1,5 @@
 
+
 import json
 import random
 from keep_alive import keep_alive
@@ -9,7 +10,7 @@ import discord
 import requests
 import asyncio
 import datetime
-import pynacl
+# import pynacl
 from replit import db
 import youtube_dl
 import music
@@ -83,22 +84,12 @@ async def on_message(msg):
 
 
 
-# cogs = [music]
-
-# client = commands.Bot(command_prefix="?",intents = discord.Intents.all())
-
-# for i in range(len(cogs)):
-#   cogs[i].setup(client)
-
-
-# client.run("MTA2OTcxODQ3NzA1NDY4OTMzMA.GN44NM.w6tk6RbtNuUToAU8wsvVNX8F_ZfLco7_zK5PjY")
-
-
 allowed_categories = ["business","world","technology","sports","science","politics","environment","top"]
 
-
-
-
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
+client = discord.Client(intents=intents)
 
 @client.event
 async def on_message(message):
@@ -317,9 +308,17 @@ async def on_message(message):
                       inline=False)
 
         sent_message = await message.channel.send(embed=embed)
+# @client.event
+# async def on_member_join(member):
+#     channel = discord.utils.get(member.guild.text_channels, name="general")
+#     if channel is not None:
+#         embed = discord.Embed(title="Welcome!", description=f"{member.mention} has joined the server!", color=0x00ff00)
+#         await channel.send(embed=embed)
+
   if message.content.startswith('$chat'):
     member_message = message.content.split("-")[1]
-    openai.api_key = "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"
+    my_secret2 = os.environ['OpenAI_TOKEN']
+    openai.api_key = my_secret2
     
     model_engine = "text-davinci-003"
     
@@ -384,56 +383,15 @@ async def on_message(message):
     embed = discord.Embed(
     title = f"Here you Go ...!",)
     embed.set_thumbnail(url=message.author.avatar)
-    embed.add_field(name = "Commands to Call me :",
+    embed.add_field(name = "Commands to Call me ...!",
                    value="1. $apod command gives you the Astronomy picture of the day released by NASA everyday \n 2.$launches gives you the list of upcoming rocket launches and the site to watch them! \n 3.$news- gives you with the Astronomy News but I dont stop there you can also get business, world, sports , science , top, entertainment news by typing $news-[topic you want]#1 this will give you the first page conatining ten articles for more just replace #1)\n 4.$chat- <your query> to chat with me. \n 5.$dob-<your dob in ddmmyy> to store the dob and wish you on your bday...!",inline = False)
-    embed.add_field(name = "Rules to follow in the server :",
+    embed.add_field(name = "Rules to follow in the server",
                    value="1. No Offensive messages \n 2.This is a server for Space Geeks so try to keep it that way \n 3.Only Healthy conversations \n 4.May the force be with you..!")
 
    
    
-    await message.channel.send(embed=embed)
-
+    await mesend(embed=embed)
     
-#   if message.content.startswith('!play'):
-#         # Extract the song name
-#         song_name = message.content[6:]
-#         if not song_name:
-#             await message.channel.send('Please specify a song name!')
-#             return
-#         if not song_name:
-#             await message.channel.send('Please specify a song name!')
-#             return
-
-#         # Search for the song on YouTube
-#         ydl_opts = {
-#             'default_search': 'ytsearch',
-#             # 'format': 'bestaudio/best',
-#             # 'postprocessors': [{
-#             #     'key': 'FFmpegExtractAudio',
-#             #     'preferredcodec': 'mp3',
-#             #     'preferredquality': '192',
-#             # }],
-#         }
-#         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-#             info = ydl.extract_info(song_name, download=False)
-#             if 'formats' in info:
-#                 stream_url = info['formats'][0]['url']
-#             else:
-#               await message.channel.send("Couldn't find an audio-only format for the song. Try searching for a different version.")
-#             return
-
-#         # Check if the user is in a voice channel
-#         if message.author.voice is None:
-#             await message.channel.send('Please join a voice channel first!')
-#             return
-
-#         # Join the user's voice channel
-#         voice_channel = message.author.voice.channel
-#         vc = await voice_channel.connect()
-
-#         # Play the audio stream
-#         vc.play(discord.FFmpegPCMAudio(stream_url), after=lambda e: print('done', e))
-#         await message.channel.send(f'Playing: {info["title"]}')
 @client.event
 async def on_member_join(member):
     embed = discord.Embed(
