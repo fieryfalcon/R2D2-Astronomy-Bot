@@ -1,5 +1,5 @@
 
-# R2D2 (More than an Astronomy Bot) 👨‍🚀️
+# R2D2 (More than an Astronomy Bot) 🤖️  
 
 R2D2 is the ultimate companion for space enthusiasts and young astronomers. With a plethora of features, including real-time chat functionality, up-to-date news on the latest space discoveries, notifications on upcoming rocket launches, and the ability to send birthday wishes, this bot is the perfect addition to any space-loving Discord community.
 
