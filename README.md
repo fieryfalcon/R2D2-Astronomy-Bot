@@ -19,6 +19,7 @@ Note : Current version of replit does not allow users to use FFMPEG (a suite of 
 ## Screenshots
 
 ![Screenshot from 2023-02-09 17-05-02](https://user-images.githubusercontent.com/95534365/217803279-1988fd38-0032-44ec-8ced-bfbb451ca958.png)
+I'll leave the rest of the features for you to discover ... Do not forget to check your DM as soon as you enter the server...!
 
 
 
